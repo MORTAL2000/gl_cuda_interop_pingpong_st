@@ -37,6 +37,9 @@ endif(SUPPORT_NVTOOLSEXT)
 #
 _add_package_NSight()
 _add_package_AntTweakBar()
+
+# use a custom FindCUDA module instead of the default CMake version
+set(CMAKE_MODULE_PATH "${BASE_DIRECTORY}/shared_sources/cmake/private;${CMAKE_MODULE_PATH}")
 _add_package_Cuda ()
 
 #####################################################################################
