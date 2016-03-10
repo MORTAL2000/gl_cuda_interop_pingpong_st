@@ -6,7 +6,7 @@
 
 void Sample::simulateCUDA(float dt)
 {
-  NV_PROFILE_SECTION_EX("simulateCUDA", *m_cudaTimer);
+  NV_PROFILE_SECTION_EX("simulateCUDA", m_cudaTimer, false);
 
   if(!m_isRunning)
   {
@@ -54,7 +54,7 @@ void Sample::initCUDA()
 
 void Sample::bindCUDAReadWriteVolumes(bool bOddIter)
 {
-  NV_PROFILE_SECTION_EX("bindCUDAReadWriteVolumes", *m_cudaTimer);
+  NV_PROFILE_SECTION_EX("bindCUDAReadWriteVolumes", m_cudaTimer, false);
 
   if(!m_isRunning)
   {

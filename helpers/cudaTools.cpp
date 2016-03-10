@@ -10,7 +10,7 @@ namespace nv_helpers_cuda
     return cudaStr;
   }
 
-  bool AsyncTimer::TimerAvailable( nv_helpers_gl::Profiler::TimerIdx idx )
+  bool AsyncTimer::TimerAvailable( nv_helpers::Profiler::TimerIdx idx )
   {
     CUresult cuResult = cuEventQuery( (CUevent)m_entries[idx] );
     
@@ -19,14 +19,14 @@ namespace nv_helpers_cuda
     return resultsAvailable;
   }
 
-  void AsyncTimer::TimerSetup( nv_helpers_gl::Profiler::TimerIdx idx )
+  void AsyncTimer::TimerSetup( nv_helpers::Profiler::TimerIdx idx )
   {
     //Only use stream 0 for now
     CHECK_CUDA_CALL( cuEventRecord( (CUevent)m_entries[idx], 0 ), "Failed to create CUDA event" );
   }
 
-  unsigned long long AsyncTimer::TimerResult( nv_helpers_gl::Profiler::TimerIdx idxBegin
-                                            , nv_helpers_gl::Profiler::TimerIdx idxEnd )
+  unsigned long long AsyncTimer::TimerResult( nv_helpers::Profiler::TimerIdx idxBegin
+                                            , nv_helpers::Profiler::TimerIdx idxEnd )
   {
     float milliseconds;
     cuEventElapsedTime( &milliseconds, (CUevent)m_entries[idxBegin], (CUevent)m_entries[idxEnd] );
@@ -35,7 +35,7 @@ namespace nv_helpers_cuda
     return nanoseconds;
   }
 
-  void AsyncTimer::TimerGrow( unsigned int timers )
+  void AsyncTimer::TimerEnsureSize( unsigned int timers )
   {
     size_t prevSize = m_entries.size();
     m_entries.resize( prevSize + timers, 0 );

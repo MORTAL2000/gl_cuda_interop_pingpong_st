@@ -4,7 +4,8 @@
 #include <iostream>
 #include <cuda.h>
 
-#include <nv_helpers_gl/profiler.hpp>
+#include "nv_helpers_gl/profilertimersgl.hpp"
+#include "nv_helpers/profiler.hpp"
 
 #ifdef _DEBUG
 # define CHECK_CUDA_CALL(cerr, str) if(cerr != CUDA_SUCCESS)\
@@ -43,21 +44,22 @@ namespace nv_helpers_cuda
     return cuDevice;
   }
 
-  class AsyncTimer : public nv_helpers_gl::Profiler::GPUInterface
+  class AsyncTimer : public nv_helpers::Profiler::GPUInterface
   {
   public:
     AsyncTimer()
     {
-      TimerGrow(nv_helpers_gl::Profiler::START_TIMERS);
+      TimerEnsureSize(nv_helpers::Profiler::START_TIMERS);
     }
     ~AsyncTimer();
   public:
     const char* TimerTypeName();
-    bool    TimerAvailable( nv_helpers_gl::Profiler::TimerIdx idx );
-    void    TimerSetup( nv_helpers_gl::Profiler::TimerIdx idx );
-    unsigned long long  TimerResult( nv_helpers_gl::Profiler::TimerIdx idxBegin
-                                   , nv_helpers_gl::Profiler::TimerIdx idxEnd );
-    void    TimerGrow( unsigned int timers );
+    bool    TimerAvailable( nv_helpers::Profiler::TimerIdx idx );
+    void    TimerSetup( nv_helpers::Profiler::TimerIdx idx );
+    unsigned long long  TimerResult( nv_helpers::Profiler::TimerIdx idxBegin
+                                   , nv_helpers::Profiler::TimerIdx idxEnd );
+    void    TimerEnsureSize( unsigned int timers);
+    void    TimerFlush() {};
 
   private:
 
